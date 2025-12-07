@@ -147,7 +147,7 @@ function renderPost() {
 // Load Giscus
 function loadGiscus() {
   const container = document.getElementById("giscus-container");
-  if (!container) return;
+  if (!container || !currentPost) return;
 
   // Remove existing script if any
   const existingScript = document.querySelector('script[src*="giscus"]');
@@ -155,14 +155,21 @@ function loadGiscus() {
     existingScript.remove();
   }
 
+  // Clear container to remove old Giscus widget
+  container.innerHTML = "";
+
+  // Use filename as unique identifier for each post
+  const postIdentifier = currentPost.filename.replace(".md", "");
+
   // Create Giscus script
   const script = document.createElement("script");
   script.src = "https://giscus.app/client.js";
   script.setAttribute("data-repo", "imgruit/imgruit.github.io");
-  script.setAttribute("data-repo-id", "R_kgDOQj-72g"); // 나중에 설정 필요
+  script.setAttribute("data-repo-id", "R_kgDOQj-72g");
   script.setAttribute("data-category", "General");
-  script.setAttribute("data-category-id", "DIC_kwDOQj-72s4CzfIV"); // 나중에 설정 필요
-  script.setAttribute("data-mapping", "pathname");
+  script.setAttribute("data-category-id", "DIC_kwDOQj-72s4CzfIV");
+  script.setAttribute("data-mapping", "specific");
+  script.setAttribute("data-term", postIdentifier);
   script.setAttribute("data-strict", "0");
   script.setAttribute("data-reactions-enabled", "1");
   script.setAttribute("data-emit-metadata", "1");
