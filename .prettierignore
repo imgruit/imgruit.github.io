@@ -1,0 +1,16 @@
+# Dependencies
+node_modules/
+
+# Build outputs
+dist/
+build/
+
+# Generated files
+posts.json
+
+# Git
+.git/
+
+# GitHub
+.github/
+

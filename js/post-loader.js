@@ -158,19 +158,25 @@ function loadGiscus() {
   // Clear container to remove old Giscus widget
   container.innerHTML = "";
 
+  // Get filename as unique identifier for each post
+  const fileName = currentPost.filename.replace(".md", "");
+  const postIdentifier = fileName || "default";
+
   // Create Giscus script
-  // IMPORTANT: Use 'url' mapping to include query parameters in the identifier
-  // This ensures each post gets its own discussion thread based on the full URL
-  // Example: post.html?file=example.md vs post.html?file=other.md = different discussions
+  // IMPORTANT: Use 'specific' mapping with filename as term
+  // This ensures each post gets its own discussion thread based on the filename
+  // Example: 2025-frontend-trends.md → term="2025-frontend-trends"
+  //          example.md → term="example"
   const script = document.createElement("script");
   script.src = "https://giscus.app/client.js";
   script.setAttribute("data-repo", "imgruit/imgruit.github.io");
   script.setAttribute("data-repo-id", "R_kgDOQj-72g");
   script.setAttribute("data-category", "General");
   script.setAttribute("data-category-id", "DIC_kwDOQj-72s4CzfIV");
-  // 'url' mapping automatically uses the full URL (including query params)
-  // No need for data-term when using 'url' mapping
-  script.setAttribute("data-mapping", "url");
+  // Use 'specific' mapping with filename as unique term
+  // The Discussion title in GitHub must match this term exactly
+  script.setAttribute("data-mapping", "specific");
+  script.setAttribute("data-term", postIdentifier);
   script.setAttribute("data-strict", "0");
   script.setAttribute("data-reactions-enabled", "1");
   script.setAttribute("data-emit-metadata", "1");
